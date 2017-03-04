@@ -12,8 +12,13 @@ function init() {
     if (!CONF.username) {
       connect()
     } else {
-      getLights()
-        .then(lights => CONF.lights = lights)
+      const promises = [getLights(), getScenes()]
+        Promise.all(promises)
+        .then(([lights, scenes]) => {
+          CONF.lights = lights
+          CONF.scenes = scenes
+          console.log(CONF)
+        })
         .then(() => document.querySelector('#interact').style.display = 'block')
     }
   })
@@ -40,7 +45,10 @@ function getLights() {
   return fetch(`http://${CONF.ip}/api/${CONF.username}/lights`)
     .then(resp => resp.json())
 }
-
+function getScenes() {
+  return fetch(`http://${CONF.ip}/api/${CONF.username}/scenes`)
+    .then(resp => resp.json())
+}
 function switchLight(id, on= true) {
   return fetch(`http://${CONF.ip}/api/${CONF.username}/lights/${id}/state`, {
     method: 'PUT',
