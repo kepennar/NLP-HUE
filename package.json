@@ -12,6 +12,7 @@
     "test:watch": "nwb test-preact --server"
   },
   "dependencies": {
+    "annyang": "^2.6.0",
     "preact": "^7.2.0",
     "preact-compat": "^3.13.1"
   },
