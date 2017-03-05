@@ -1,6 +1,8 @@
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+import {h, render} from 'preact'
 import './index.css'
 
-import {h, render} from 'preact'
+OfflinePluginRuntime.install();
 
 let root
 function init() {

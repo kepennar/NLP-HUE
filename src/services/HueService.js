@@ -1,9 +1,10 @@
 
 const CONF = {}
 
-CONF.username = window.sessionStorage.getItem('username')
+CONF.username = window.localStorage.getItem('username')
 
 export function getBridgeIp() {
+  navigator.onLine
   return fetch('https://www.meethue.com/api/nupnp')
     .then(resp => resp.json())
     .then(data => data[0].internalipaddress)
@@ -13,30 +14,30 @@ export function getBridgeIp() {
 export function getUsername() {
   return CONF.username
 }
-export function connect() {
-  return fetch(`http://${CONF.ip}/api`, {
+export async function connect() {
+  const resp = await fetch(`http://${CONF.ip}/api`, {
     method: 'POST',
     body: JSON.stringify({"devicetype":"nlp_hue"})
   })
-  .then(resp => resp.json())
-  .then(datas => {
-    const username = datas[0].success.username
-    window.sessionStorage.setItem('username', username)
-    CONF.username = username
-    return username
-  })
+  const datas = await resp.json()
+  const username = datas[0].success.username
+  window.localStorage.setItem('username', username)
+  CONF.username = username
+  return username
 }
 
-export function getLights() {
-  return fetch(`http://${CONF.ip}/api/${CONF.username}/lights`)
-    .then(resp => resp.json())
-    .then(lights => CONF.lights = lights)
+export async function getLights() {
+  const resp = await fetch(`http://${CONF.ip}/api/${CONF.username}/lights`)
+  const lights = await resp.json()
+  CONF.lights = lights
 }
-export function getScenes() {
-  return fetch(`http://${CONF.ip}/api/${CONF.username}/scenes`)
-    .then(resp => resp.json())
+
+export async function getScenes() {
+  const resp = await fetch(`http://${CONF.ip}/api/${CONF.username}/scenes`)
+  return resp.json()
 }
-export function switchLight(id, on= true) {
+
+export async function switchLight(id, on= true) {
   return fetch(`http://${CONF.ip}/api/${CONF.username}/lights/${id}/state`, {
     method: 'PUT',
     body: JSON.stringify({on})
@@ -50,7 +51,7 @@ export function switchOff(id) {
 }
 
 export function blink() {
-  return new Promise((resolve => {
+  return new Promise(resolve => {
     Object.keys(CONF.lights).forEach(lightId => {
       switchOn(lightId)
       .then(() => {
@@ -60,7 +61,7 @@ export function blink() {
         }, 500)
       })
     })
-  }))
+  })
 }
 
 

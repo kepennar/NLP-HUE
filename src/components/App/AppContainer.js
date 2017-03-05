@@ -4,15 +4,15 @@ import { getBridgeIp } from '../../services/HueService'
 import App from './App'
 
 export default class AppContainer extends Component {
-  componentWillMount() {
-    getBridgeIp()
-    .then(() => this.setState({loaded: true}))
+  async componentWillMount() {
+    await getBridgeIp()
+    this.setState({loaded: true})
   }
 
-  render(props, state) {
+  render({ }, { loaded }) {
     return (
       <div>
-        { state.loaded && <App /> }
+        { loaded && <App /> }
       </div>
     )
   }

@@ -5,20 +5,18 @@ import { init as initSpeech } from '../../services/SpeechService'
 import Interact from './Interact'
 
 export default class InteractContainer extends Component {
-  componentWillMount() {
+  async componentWillMount() {
     const username = getUsername()
     if (username) {
-      getLights()
-      .then(() => {
-        this.setState({ username })
-        initSpeech()
-      })
+      await getLights()
+      this.setState({ username })
+      initSpeech()
     }
   }
-  render(props, state) {
+  render({ },  { username }) {
     return (
       <div>
-        { state.username && <Interact onInteract={() => blink()} /> }
+        { username && <Interact onInteract={() => blink()} /> }
       </div>
     )
   }

@@ -10,16 +10,15 @@ export default class ConnectContainer extends Component {
     })
   }
 
-  connectBridge() {
-      connect()
-      .then(username => {
-        this.setState({username})
-      })
+  connectBridge = async () => {
+    const username = await connect()
+    this.setState({username})
   }
-  render(props, state) {
+
+  render({ }, { username }) {
     return (
       <div>
-        { !state.username && <Connect onConnect={() => this.connectBridge()} /> }
+        { !username && <Connect onConnect={this.connectBridge} /> }
       </div>
     )
   }
