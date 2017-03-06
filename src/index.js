@@ -1,19 +1,24 @@
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-import {h, render} from 'preact'
-import './index.css'
+import * as OfflinePluginRuntime from "offline-plugin/runtime";
+import { h, render } from "preact";
+import "./index.scss";
 
-OfflinePluginRuntime.install();
-
-let root
-function init() {
-  let App = require('./components/App').default
-  root = render(<App/>, document.querySelector('#app'), root)
+if (process.env.NODE_ENV === 'production') {
+  OfflinePluginRuntime.install();
 }
 
-init()
+let root;
+function init() {
+  let App = require("./components/App").default;
+  root = render(<App />, document.querySelector("#app"), root);
+}
+
+init();
 
 if (module.hot) {
-  module.hot.accept('./components/App', () => window.requestAnimationFrame(() => {
-    init()
-  }))
+  module.hot.accept(
+    "./components/App",
+    () => window.requestAnimationFrame(() => {
+      init();
+    })
+  );
 }

@@ -1,29 +1,29 @@
-import { h } from 'preact'
+import { h } from "preact";
 
-import Connect from '../Connect'
-import Interact from '../Interact'
-import NoBridge from './NoBridge'
+import Connect from "../Connect";
+import Interact from "../Interact";
+import NoBridge from "./NoBridge";
 
-import './App.css'
+import "./App.scss";
 
 const App = ({ noBridge }) => {
   return (
-    <div class="App">
-      <div class="App-heading App-flex">
+    <div class="app">
+      <div class="heading flex">
         <h2>Welcome to NLP HUE</h2>
       </div>
-      <div class="App-instructions App-flex">
+      <div class="instructions flex">
         <p>Currently in dev.</p>
       </div>
       <Connect />
-      
-      { noBridge ? <NoBridge /> :
-        <div>
-          <Connect />
-          <Interact />
-        </div>
-      }
+
+      {noBridge
+        ? <NoBridge />
+        : <div>
+            <Connect />
+            <Interact />
+          </div>}
     </div>
-  )
-}
-export default App
+  );
+};
+export default App;

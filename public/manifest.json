@@ -1,0 +1,10 @@
+{
+  "name": "Natural Language Hue",
+  "short_name": "NLP-HUE",
+  "theme_color": "#2196f3",
+  "background_color": "#2196f3",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/"
+}

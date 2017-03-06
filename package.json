@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "nwb": "0.15.x",
+    "nwb-sass": "^0.7.1",
     "offline-plugin": "^4.6.1"
   },
   "author": "",

@@ -1,2 +1,2 @@
-import InteractContainer from './InteractContainer'
-export default InteractContainer
+import InteractContainer from "./InteractContainer";
+export default InteractContainer;

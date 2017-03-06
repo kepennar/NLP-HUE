@@ -1,23 +1,23 @@
-import { h, Component } from 'preact';
-import { getBridgeIp } from '../../services/HueService'
+import { h, Component } from "preact";
+import { getBridgeIp } from "../../services/HueService";
 
-import App from './App'
+import App from "./App";
 
 export default class AppContainer extends Component {
   async componentWillMount() {
     try {
-      await getBridgeIp()
-      this.setState({loaded: true})
+      await getBridgeIp();
+      this.setState({ loaded: true });
     } catch (e) {
-      this.setState({loaded:true, noBridge: true})
+      this.setState({ loaded: true, noBridge: true });
     }
   }
 
-  render({ }, { loaded, noBridge }) {
+  render({}, { loaded, noBridge }) {
     return (
       <div>
-        { loaded && <App noBridge={noBridge} /> }
+        {loaded && <App noBridge={noBridge} />}
       </div>
-    )
+    );
   }
 }
