@@ -1,9 +1,9 @@
 import { h } from "preact";
 
-const Light = ({ id, infos, activate }) => {
+const Light = ({ infos, onClick }) => {
   return (
     <div>
-      {infos.name} <button onclick={() => activate(id)}>On</button>
+      {infos.name} <button onclick={() => onClick()}>On</button>
     </div>
   );
 };

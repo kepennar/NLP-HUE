@@ -1,2 +1,2 @@
-import Light from "./Light";
+import Light from "./LightContainer";
 export default Light;

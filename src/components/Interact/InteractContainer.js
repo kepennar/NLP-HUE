@@ -3,8 +3,7 @@ import {
   getUsername,
   getLights,
   blink,
-  switchOn,
-  switchOnById
+  switchOn
 } from "../../services/HueService";
 import { init as initSpeech } from "../../services/SpeechService";
 
@@ -14,15 +13,25 @@ export default class InteractContainer extends Component {
   async componentWillMount() {
     const username = getUsername();
     if (username) {
-      const lights = await getLights();
-      this.setState({ lights });
+      await this.getLights();
       initSpeech();
     }
   }
+  async getLights() {
+    const lights = await getLights();
+    this.setState({ lights });
+  }
+
   render({}, { lights }) {
     return (
       <div>
-        {lights && <Interact lights={lights} onInteract={blink} switchOnById={switchOnById} onSwitchOn={switchOn} />}
+        {lights &&
+          <Interact
+            lights={lights}
+            onInteract={blink}
+            onSwitchOn={switchOn}
+            onChange={() => this.getLights()}
+          />}
       </div>
     );
   }

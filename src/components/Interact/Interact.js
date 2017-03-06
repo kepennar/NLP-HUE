@@ -1,15 +1,15 @@
 import { h } from "preact";
 import Light from "./Light";
 
-const Interact = ({ lights, onInteract, switchOnById, onSwitchOn }) => {
+const Interact = ({ lights, onInteract, onSwitchOn, onChange }) => {
   return (
     <div>
       <h2>Interact</h2>
-      <ul>
+      <div>
         {Object.entries(lights).map(([id, infos]) => (
-          <li><Light id={id} infos={infos} activate={switchOnById}/></li>
+          <Light id={id} infos={infos} onChange={onChange} />
         ))}
-      </ul>
+      </div>
       <button type="button" onclick={onInteract}> Click </button>
       <button type="button" onclick={onSwitchOn}> On </button>
     </div>
