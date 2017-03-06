@@ -3,17 +3,24 @@ const CONF = {}
 
 CONF.username = window.localStorage.getItem('username')
 
-export function getBridgeIp() {
-  navigator.onLine
-  return fetch('https://www.meethue.com/api/nupnp')
-    .then(resp => resp.json())
-    .then(data => data[0].internalipaddress)
-    .then(ip => CONF.ip = ip)
+export async function getBridgeIp() {
+  if (!navigator.onLine) {
+    CONF.ip = window.localStorage.getItem('bridgeIp')
+  } else {
+    const resp = await fetch('https://www.meethue.com/api/nupnp')
+    const datas = await resp.json()
+    if (datas.length === 0) {
+      throw new Error('No bridge detected')
+    }
+    CONF.ip = datas[0].internalipaddress
+    window.localStorage.setItem('bridgeIp', CONF.ip)
+  }
 }
 
 export function getUsername() {
   return CONF.username
 }
+
 export async function connect() {
   const resp = await fetch(`http://${CONF.ip}/api`, {
     method: 'POST',
@@ -43,20 +50,30 @@ export async function switchLight(id, on= true) {
     body: JSON.stringify({on})
   })
 }
-export function switchOn(id) {
+
+export function switchOnById(id) {
   return switchLight(id)
 }
-export function switchOff(id) {
+
+export function switchOffById(id) {
   return switchLight(id, false)
+}
+
+export function switchOn() {
+  const promises = []
+  Object.keys(CONF.lights).forEach(lightId => {
+    promises.push(switchOnById(lightId))
+  })
+  Promise.all(promises)
 }
 
 export function blink() {
   return new Promise(resolve => {
     Object.keys(CONF.lights).forEach(lightId => {
-      switchOn(lightId)
+      switchOnById(lightId)
       .then(() => {
         setTimeout(() => {
-          switchOff(lightId)
+          switchOffById(lightId)
           .then(() => setTimeout(resolve, 1000))
         }, 500)
       })

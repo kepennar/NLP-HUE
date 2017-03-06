@@ -5,6 +5,7 @@ const Interact = (props) => {
     <div>
       <h2>Interact</h2>
       <button type="button" onclick={props.onInteract} > Click </button>
+      <button type="button" onclick={props.onSwitchOn} > On </button>
     </div>
   )
 }

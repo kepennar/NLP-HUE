@@ -5,14 +5,18 @@ import App from './App'
 
 export default class AppContainer extends Component {
   async componentWillMount() {
-    await getBridgeIp()
-    this.setState({loaded: true})
+    try {
+      await getBridgeIp()
+      this.setState({loaded: true})
+    } catch (e) {
+      this.setState({loaded:true, noBridge: true})
+    }
   }
 
-  render({ }, { loaded }) {
+  render({ }, { loaded, noBridge }) {
     return (
       <div>
-        { loaded && <App /> }
+        { loaded && <App noBridge={noBridge} /> }
       </div>
     )
   }

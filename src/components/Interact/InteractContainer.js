@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { getUsername, getLights, blink } from '../../services/HueService'
+import { getUsername, getLights, blink, switchOn } from '../../services/HueService'
 import { init as initSpeech } from '../../services/SpeechService'
 
 import Interact from './Interact'
@@ -13,10 +13,10 @@ export default class InteractContainer extends Component {
       initSpeech()
     }
   }
-  render({ },  { username }) {
+  render({ }, { username }) {
     return (
       <div>
-        { username && <Interact onInteract={() => blink()} /> }
+        { username && <Interact onInteract={blink} onSwitchOn={switchOn} /> }
       </div>
     )
   }
