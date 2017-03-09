@@ -10,7 +10,7 @@ cache:
     - node_modules
 
 before_install:
-  - yarn add codecov.io coveralls
+  - npm add codecov.io coveralls
 
 script: 
   - yarn build
