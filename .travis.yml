@@ -9,7 +9,7 @@ cache:
     - node_modules
 
 before_install:
-  - npm install codecov.io coveralls
+  - yarn install codecov.io coveralls
 
 script: bash ./scripts/deploy.sh
 
