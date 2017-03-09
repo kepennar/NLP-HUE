@@ -11,6 +11,8 @@ cache:
 before_install:
   - npm install codecov.io coveralls
 
+script: bash ./scripts/deploy.sh
+
 after_success:
   - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
@@ -18,3 +20,8 @@ after_success:
 branches:
   only:
     - master
+
+env:
+  global:
+  - ENCRYPTION_LABEL: "f087f9824fa3"
+  - COMMIT_AUTHOR_EMAIL: "kevin.pennarun@gmail.com"
