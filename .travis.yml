@@ -16,7 +16,7 @@ script:
   - yarn build
 
 after_success:
-  - bash ./scripts/deploy.sh
+  - ./scripts/deploy.sh
   - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
