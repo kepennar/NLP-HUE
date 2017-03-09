@@ -12,7 +12,8 @@ cache:
 before_install:
   - yarn add codecov.io coveralls
 
-script: yarn build
+script: 
+  - yarn build
 
 after_success:
   - bash ./scripts/deploy.sh
