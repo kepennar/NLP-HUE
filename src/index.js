@@ -1,8 +1,9 @@
 import * as OfflinePluginRuntime from "offline-plugin/runtime";
+
 import { h, render } from "preact";
 import { Provider } from "preact-redux";
 
-import store from "./store/";
+import store from "./store";
 import "./index.scss";
 
 if (process.env.NODE_ENV === "production") {

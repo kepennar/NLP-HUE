@@ -36,7 +36,7 @@ export function attemptToConnect() {
         console.warn("Not connected yet");
       }
     },
-    1000
+    5000
   );
   return resolver;
 }

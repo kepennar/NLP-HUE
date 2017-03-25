@@ -4,7 +4,7 @@ const EMPTY = {};
 export default (state = EMPTY, action) => {
   switch (action.type) {
     case SET_BULBS:
-      return { ...state, bulbs: action.value };
+      return { ...state, ...action.value };
     default:
       return state;
   }

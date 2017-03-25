@@ -1,34 +1,27 @@
 import { h, Component } from "preact";
-import {
-  getUsername,
-  getLights,
-  blink,
-  switchOn
-} from "../../../services/HueService";
+import { connect } from "preact-redux";
+import { getBulbs } from "../../../store/bulbs";
+import { getUsername, blink, switchOn } from "../../../services/HueService";
 
 import Bulbs from "./Bulbs";
 
-export default class BulbsContainer extends Component {
+class BulbsContainer extends Component {
   async componentWillMount() {
     const username = getUsername();
     if (username) {
-      await this.getLights();
+      this.props.getBulbs();
     }
   }
 
-  async getLights() {
-    const lights = await getLights();
-    this.setState({ lights });
-  }
-
-  render({}, { lights }) {
-    return lights
+  render({ getBulbs, bulbs }) {
+    return bulbs
       ? <Bulbs
-          lights={lights}
+          bulbs={bulbs}
           onInteract={blink}
           onSwitchOn={switchOn}
-          onChange={() => this.getLights()}
+          onChange={() => getBulbs()}
         />
       : <span>Loading...</span>;
   }
 }
+export default connect(state => ({ bulbs: state.bulbs }), { getBulbs })(BulbsContainer);

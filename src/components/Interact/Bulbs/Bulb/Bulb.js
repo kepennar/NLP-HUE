@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { CheckBox } from "preact-mdl";
 
-const Light = ({ infos: { name, state: { reachable, on } }, onClick }) => {
+const Bulb = ({ infos: { name, state: { reachable, on } }, onClick }) => {
   return (
     <form action="javascript:;">
       {name}
@@ -12,4 +12,4 @@ const Light = ({ infos: { name, state: { reachable, on } }, onClick }) => {
   );
 };
 
-export default Light;
+export default Bulb;

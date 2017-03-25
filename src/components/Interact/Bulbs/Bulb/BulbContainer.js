@@ -1,9 +1,9 @@
 import { h, Component } from "preact";
 import { switchOnById, switchOffById } from "../../../../services/HueService";
 
-import Light from "./Light";
+import Bulb from "./Bulb";
 
-export default class InteractContainer extends Component {
+export default class BulbContainer extends Component {
   async toggle() {
     const action = this.props.infos.state.on ? switchOffById : switchOnById;
     await action(this.props.id);
@@ -12,6 +12,6 @@ export default class InteractContainer extends Component {
 
   render(props) {
     const onClick = props.infos.state.on ? switchOffById : switchOnById;
-    return <Light {...props} onClick={() => this.toggle()} />;
+    return <Bulb {...props} onClick={() => this.toggle()} />;
   }
 }
