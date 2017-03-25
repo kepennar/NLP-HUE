@@ -1,12 +1,13 @@
-@import './style/colors';
+$image_path: '~material-design-lite/src/images/';
 
-html, body, #app {
-  height: 100%;
-}
+@import '~material-design-icons/iconfont/material-icons.css';
+@import '~material-design-lite/src/material-design-lite';
+@import './styles/colors';
+
+$main-bg-colors: #efefef;
+
 body {
   background-color: $main-bg-colors;
-  font-family: sans-serif;
-  margin: 0;
-  min-height: 100%;
-  padding: 0;
 }
+
+

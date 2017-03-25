@@ -1,2 +1,1 @@
-import ConnectContainer from "./ConnectContainer";
-export default ConnectContainer;
+export default from "./ConnectContainer";
