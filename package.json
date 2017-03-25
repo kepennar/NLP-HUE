@@ -9,7 +9,8 @@
     "start": "nwb serve-preact-app",
     "test": "nwb test-preact",
     "test:coverage": "nwb test-preact --coverage",
-    "test:watch": "nwb test-preact --server"
+    "test:watch": "nwb test-preact --server",
+    "deploy": "surge --project ./dist --domain nlp-hue.surge.sh"
   },
   "dependencies": {
     "annyang": "^2.6.0",
@@ -28,7 +29,8 @@
   },
   "git": {
     "scripts": {
-      "pre-push": "yarn build && surge --project ./dist --domain nlp-hue.surge.sh"
+      "post-commit": "yarn build",
+      "pre-push": "yarn deploy"
     }
   },
   "author": "",
