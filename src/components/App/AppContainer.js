@@ -1,4 +1,6 @@
 import { h, Component } from "preact";
+import { connect } from 'preact-redux';
+
 import { getBridgeIp } from "../../services/HueService";
 
 import App from "./App";

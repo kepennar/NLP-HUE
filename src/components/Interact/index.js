@@ -1,1 +1,1 @@
-export default from "./InteractContainer";
+export default from "./Interact";

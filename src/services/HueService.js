@@ -20,6 +20,27 @@ export function getUsername() {
   return CONF.username;
 }
 
+export function attemptToConnect() {
+  let resolver = {
+    onDone(cb) {
+      this.done = cb;
+    }
+  };
+  const intervalId = window.setInterval(
+    async () => {
+      try {
+        const username = await connect();
+        resolver.done(username);
+        window.clearInterval(intervalId);
+      } catch (e) {
+        console.warn("Not connected yet");
+      }
+    },
+    1000
+  );
+  return resolver;
+}
+
 export async function connect() {
   const resp = await fetch(`http://${CONF.ip}/api`, {
     method: "POST",
@@ -69,15 +90,17 @@ export function switchOn() {
 
 export function blink() {
   return new Promise(resolve => {
-    Object.keys(CONF.lights).forEach(lightId => {
-      switchOnById(lightId).then(() => {
-        setTimeout(
-          () => {
-            switchOffById(lightId).then(() => setTimeout(resolve, 1000));
-          },
-          500
-        );
-      });
+    const promises = Object.keys(CONF.lights).map(lightId =>
+      switchOnById(lightId));
+    Promise.all(promises).then(() => {
+      setTimeout(
+        () => {
+          const anotherPromises = Object.keys(CONF.lights).map(lightId =>
+            switchOffById(lightId));
+          Promise.all(anotherPromises).then(() => setTimeout(resolve, 1000));
+        },
+        500
+      );
     });
   });
 }

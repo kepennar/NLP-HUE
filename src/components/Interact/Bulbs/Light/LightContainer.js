@@ -1,5 +1,5 @@
 import { h, Component } from "preact";
-import { switchOnById, switchOffById } from "../../../services/HueService";
+import { switchOnById, switchOffById } from "../../../../services/HueService";
 
 import Light from "./Light";
 

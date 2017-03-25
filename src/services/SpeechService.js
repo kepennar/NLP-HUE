@@ -1,11 +1,17 @@
 import annyang from "annyang";
-import { blink } from "./HueService";
+import { getLights, blink } from "./HueService";
+
+const action = () => blink().then(getLights);
 
 export function init() {
   // Add our commands to annyang
   annyang.addCommands({
-    oops: () => blink(),
-    hello: () => blink()
+    oops() {
+      action();
+    },
+    hello() {
+      action();
+    }
   });
 
   // Start listening.

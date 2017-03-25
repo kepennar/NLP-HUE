@@ -1,21 +1,12 @@
 import { h } from "preact";
-import { Card, Icon } from "preact-mdl";
-import Light from "./Light";
+import Bulbs from "./Bulbs";
+import Speech from "./Speech";
 
-const Interact = ({ lights, onInteract, onSwitchOn, onChange }) => (
-  <Card shadow="3" class="wide" style="margin:auto">
-    <Card.Title class>
-      <Card.TitleText>Interact</Card.TitleText>
-    </Card.Title>
-    <Card.Text style="text-align:center">
-      <Icon icon="light" style="display:block; font-size:100px;" />
-    </Card.Text>
-    <Card.Actions>
-      {Object.entries(lights).map(([id, infos]) => (
-        <Light id={id} infos={infos} onChange={onChange} />
-      ))}
-    </Card.Actions>
-  </Card>
+const Interact = () => (
+  <div>
+    <Bulbs />
+    <Speech />
+  </div>
 );
 
 export default Interact;
