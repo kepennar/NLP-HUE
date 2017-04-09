@@ -10,7 +10,7 @@ export default ({ scenes, getBulbs }) => (
       <Card.TitleText>Scenes</Card.TitleText>
     </Card.Title>
     <Card.Text class="txt-center">
-      <Icon icon="landscape" style="display:block; font-size:100px;" />
+      <Icon icon="landscape" class="card-icon" />
     </Card.Text>
     <Card.Actions class="scrollable-content">
       {Object.entries(scenes).map(([id, infos]) => (

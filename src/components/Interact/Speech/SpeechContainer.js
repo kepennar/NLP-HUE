@@ -2,21 +2,31 @@ import { h, Component } from "preact";
 import { connect } from "preact-redux";
 
 import { getBulbs } from "../../../store/bulbs";
-import { init as initSpeech } from "../../../services/SpeechService";
+import { startListening, stopListening } from "../../../store/speech";
 
 import Speech from "./Speech";
 
 class SpeechContainer extends Component {
-  activateSpeech() {
-    initSpeech();
-  }
+  activateSpeech = () => {
+    const { isListening, startListening, stopListening } = this.props;
 
-  render({ nbBulbs }) {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
+
+  render({ nbBulbs, isListening }) {
     return nbBulbs
-      ? <Speech onClick={this.activateSpeech} />
+      ? <Speech isListening={isListening} onClick={this.activateSpeech} />
       : <span>Loading...</span>;
   }
 }
-export default connect(state => ({ ...state.bulbs }))(
-  SpeechContainer
-);
+export default connect(
+  state => ({
+    nbBulbs: state.bulbs.nbBulbs,
+    ...state.speech
+  }),
+  { startListening, stopListening }
+)(SpeechContainer);

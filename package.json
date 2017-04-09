@@ -13,7 +13,7 @@
     "deploy": "surge --project ./dist --domain nlp-hue.surge.sh"
   },
   "dependencies": {
-    "annyang": "^2.6.0",
+    "api-ai-javascript": "2.0.0-beta.18",
     "material-design-icons": "^3.0.1",
     "material-design-lite": "^1.0.6",
     "preact": "^8.0.1",
