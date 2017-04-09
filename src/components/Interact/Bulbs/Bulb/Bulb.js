@@ -1,13 +1,40 @@
 import { h } from "preact";
-import { CheckBox } from "preact-mdl";
+import { CheckBox, Slider } from "preact-mdl";
 
-const Bulb = ({ infos: { name, state: { reachable, on } }, onClick }) => {
+import BriSlider from "./BriSlider";
+
+const Bulb = (
+  {
+    id,
+    infos: { name, state: { reachable, on, bri } },
+    onClick,
+    onChangeBri
+  }
+) => {
   return (
     <form action="javascript:;">
       {name}
-      <CheckBox onclick={() => onClick()} disabled={!reachable} checked={reachable && on}>
-        {reachable && on ? "On" : "Off"}
-      </CheckBox>
+      {reachable
+        ? <div>
+            <CheckBox
+              onclick={() => onClick()}
+              disabled={!reachable}
+              checked={reachable && on}
+            >
+              {on ? "On" : "Off"}
+            </CheckBox>
+            {on && <BriSlider
+              name={`bri-${id}`}
+              value={bri}
+              min={0}
+              max={254}
+              disabled={!on}
+              onInput={value => onChangeBri(value)}
+            />}
+          </div>
+        : <CheckBox disabled={true} checked={false}>
+            "Off"
+          </CheckBox>}
     </form>
   );
 };

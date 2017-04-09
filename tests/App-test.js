@@ -1,21 +1,33 @@
 import expect from "expect";
 import { h, render } from "preact";
+import { Provider } from "preact-redux";
 
-import App from "src/components/App/App";
+import App from "src/components/App/AppContainer";
+import store from "src/store";
 
 describe("App component", () => {
   let node;
 
-  beforeEach(() => {
+  before(() => {
     node = document.createElement("div");
+    (document.body || document.documentElement).appendChild(node);
+  });
+  beforeEach(() => {
+    node.innerHTML = "";
   });
 
-  afterEach(() => {
-    render(null, node);
+  after(() => {
+    node.parentNode.removeChild(node);
+    node = null;
   });
 
   it("displays a welcome message", () => {
-    render(<App />, node);
-    expect(node.querySelector('h2').textContent).toBe("Welcome to NLP HUE");
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      node
+    );
+    expect(node.querySelector("h2").textContent).toBe("Welcome to NLP HUE");
   });
 });

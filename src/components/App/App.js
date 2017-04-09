@@ -4,30 +4,22 @@ import { Layout } from "preact-mdl";
 import "material-design-lite";
 
 import Header from "../Header";
+import Title from "./Title";
 import Connect from "../Connect";
 import Interact from "../Interact";
 import NoBridge from "../NoBridge";
 
 import "./App.scss";
 
-const App = ({ noBridge }) => {
+const App = ({ noBridge, connected }) => {
   return (
     <Layout fixed-header>
       <Header />
-
+      <Title />
       <Layout.Content>
-        <div class="heading flex">
-          <h2>Welcome to NLP HUE</h2>
-        </div>
-        <div class="instructions flex">
-          <p>Currently in dev.</p>
-        </div>
-        {noBridge
-          ? <NoBridge />
-          : <div>
-              <Connect />
-              <Interact />
-            </div>}
+        {noBridge && <NoBridge />}
+        {noBridge || <Connect />}
+        {connected && <Interact />}
       </Layout.Content>
     </Layout>
   );

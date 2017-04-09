@@ -1,60 +1,43 @@
 const CONF = {};
 
-CONF.username = window.localStorage.getItem("username");
-
-export async function getBridgeIp() {
+export async function fetchBridgeIp() {
+  let bridgeIp;
   if (!navigator.onLine) {
-    CONF.ip = window.localStorage.getItem("bridgeIp");
+    bridgeIp = window.localStorage.getItem("bridgeIp");
   } else {
     const resp = await fetch("https://www.meethue.com/api/nupnp");
     const datas = await resp.json();
     if (datas.length === 0) {
       throw new Error("No bridge detected");
     }
-    CONF.ip = datas[0].internalipaddress;
-    window.localStorage.setItem("bridgeIp", CONF.ip);
+    bridgeIp = datas[0].internalipaddress;
+    window.localStorage.setItem("bridgeIp", bridgeIp);
   }
+  return bridgeIp;
 }
 
-export function getUsername() {
-  return CONF.username;
+export async function connect(ip) {
+  const username = window.localStorage.getItem("username");
+  return username ? username : fetchConnect(ip);
 }
 
-export function attemptToConnect() {
-  let resolver = {
-    onDone(cb) {
-      this.done = cb;
-    }
-  };
-  const intervalId = window.setInterval(
-    async () => {
-      try {
-        const username = await connect();
-        resolver.done(username);
-        window.clearInterval(intervalId);
-      } catch (e) {
-        console.warn("Not connected yet");
-      }
-    },
-    5000
-  );
-  return resolver;
-}
-
-export async function connect() {
-  const resp = await fetch(`http://${CONF.ip}/api`, {
+async function fetchConnect(ip) {
+  const resp = await fetch(`http://${ip}/api`, {
     method: "POST",
     body: JSON.stringify({ devicetype: "nlp_hue" })
   });
   const datas = await resp.json();
+
+  if (!datas[0].success) {
+    throw new Error("Not connected");
+  }
   const username = datas[0].success.username;
   window.localStorage.setItem("username", username);
-  CONF.username = username;
   return username;
 }
 
-export async function getLights() {
-  const resp = await fetch(`http://${CONF.ip}/api/${CONF.username}/lights`);
+export async function getLights(ip, username) {
+  const resp = await fetch(`http://${ip}/api/${username}/lights`);
   const lights = await resp.json();
   CONF.lights = lights;
   return lights;
@@ -65,42 +48,24 @@ export async function getScenes() {
   return resp.json();
 }
 
-export async function switchLight(id, on = true) {
-  return fetch(`http://${CONF.ip}/api/${CONF.username}/lights/${id}/state`, {
+export async function switchLight(ip, username, id, on = true) {
+  return fetch(`http://${ip}/api/${username}/lights/${id}/state`, {
     method: "PUT",
     body: JSON.stringify({ on })
   });
 }
 
-export function switchOnById(id) {
-  return switchLight(id);
+export async function switchOnById(ip, username, id) {
+  return switchLight(ip, username, id);
 }
 
-export function switchOffById(id) {
-  return switchLight(id, false);
+export async function switchOffById(ip, username, id) {
+  return switchLight(ip, username, id, false);
 }
 
-export function switchOn() {
-  const promises = [];
-  Object.keys(CONF.lights).forEach(lightId => {
-    promises.push(switchOnById(lightId));
-  });
-  Promise.all(promises);
-}
-
-export function blink() {
-  return new Promise(resolve => {
-    const promises = Object.keys(CONF.lights).map(lightId =>
-      switchOnById(lightId));
-    Promise.all(promises).then(() => {
-      setTimeout(
-        () => {
-          const anotherPromises = Object.keys(CONF.lights).map(lightId =>
-            switchOffById(lightId));
-          Promise.all(anotherPromises).then(() => setTimeout(resolve, 1000));
-        },
-        500
-      );
-    });
+export async function putBriValue(ip, username, id, bri) {
+  return fetch(`http://${ip}/api/${username}/lights/${id}/state`, {
+    method: "PUT",
+    body: JSON.stringify({ bri })
   });
 }

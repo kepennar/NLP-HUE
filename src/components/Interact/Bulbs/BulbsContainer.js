@@ -1,27 +1,26 @@
 import { h, Component } from "preact";
 import { connect } from "preact-redux";
+import { omit } from "rambda";
+
 import { getBulbs } from "../../../store/bulbs";
-import { getUsername, blink, switchOn } from "../../../services/HueService";
 
 import Bulbs from "./Bulbs";
 
 class BulbsContainer extends Component {
   async componentWillMount() {
-    const username = getUsername();
-    if (username) {
-      this.props.getBulbs();
+    const { username, getBulbs, nbBulbs } = this.props;
+    if (username && !nbBulbs) {
+      getBulbs();
     }
   }
 
   render({ getBulbs, bulbs }) {
-    return bulbs
-      ? <Bulbs
-          bulbs={bulbs}
-          onInteract={blink}
-          onSwitchOn={switchOn}
-          onChange={() => getBulbs()}
-        />
+    return bulbs.nbBulbs
+      ? <Bulbs bulbs={omit("nbBulbs", bulbs)} getBulbs={getBulbs} />
       : <span>Loading...</span>;
   }
 }
-export default connect(state => ({ bulbs: state.bulbs }), { getBulbs })(BulbsContainer);
+export default connect(
+  state => ({ bulbs: state.bulbs, username: state.user.username }),
+  { getBulbs }
+)(BulbsContainer);

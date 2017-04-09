@@ -1,24 +1,25 @@
 import { h, Component } from "preact";
-import { getUsername, attemptToConnect } from "../../services/HueService";
+import { connect } from "preact-redux";
+
+import { connectBridge } from "../../store/user/";
 
 import Connect from "./Connect";
 
-export default class ConnectContainer extends Component {
+class ConnectContainer extends Component {
   componentWillMount() {
-    const username = getUsername();
-    if (!username) {
-      attemptToConnect()
-      .onDone(username => this.setState({ username }));
-    } else {
-      this.setState({ username });
+    if (this.props.bridgeIp) {
+      this.props.connectBridge();
     }
   }
 
-  render({}, { username }) {
+  render({ bridgeIpLoaded, username }) {
     return (
       <div>
-        {!username && <Connect />}
+        {bridgeIpLoaded && !username && <Connect />}
       </div>
     );
   }
 }
+export default connect(state => ({ ...state.user }), {
+  connectBridge
+})(ConnectContainer);

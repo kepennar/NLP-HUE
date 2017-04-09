@@ -1,25 +1,19 @@
 import { h, Component } from "preact";
-import { connect } from 'preact-redux';
+import { connect } from "preact-redux";
 
-import { getBridgeIp } from "../../services/HueService";
+import { getBridgeIp } from "../../store/user";
 
 import App from "./App";
 
-export default class AppContainer extends Component {
-  async componentWillMount() {
-    try {
-      await getBridgeIp();
-      this.setState({ loaded: true });
-    } catch (e) {
-      this.setState({ loaded: true, noBridge: true });
-    }
+class AppContainer extends Component {
+  componentWillMount() {
+    this.props.getBridgeIp();
   }
 
-  render({}, { loaded, noBridge }) {
-    return (
-      <div>
-        {loaded && <App noBridge={noBridge} />}
-      </div>
-    );
+  render({ bridgeIp, username }) {
+    return <App noBridge={!bridgeIp} connected={!!username}/>;
   }
 }
+export default connect(state => ({...state.user}), {
+  getBridgeIp
+})(AppContainer);

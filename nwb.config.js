@@ -1,14 +1,19 @@
-const OfflinePlugin = require('offline-plugin');
+const OfflinePlugin = require("offline-plugin");
 
 module.exports = {
-  type: 'preact-app',
+  type: "preact-app",
   babel: {
-    plugins: ['transform-export-extensions']
+    plugins: ["transform-export-extensions"]
   },
   webpack: {
     extra: {
-      devtool: 'eval',
-      plugins: process.env.NODE_ENV === 'production' ? [new OfflinePlugin()] : []
+      devtool: "eval",
+      plugins: process.env.NODE_ENV === "production"
+        ? [new OfflinePlugin()]
+        : []
     }
+  },
+  karma: {
+    browsers: ["Chrome"]
   }
-}
+};

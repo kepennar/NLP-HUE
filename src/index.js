@@ -10,21 +10,22 @@ if (process.env.NODE_ENV === "production") {
   OfflinePluginRuntime.install();
 }
 
-let root;
 function init() {
   let App = require("./components/App").default;
-  root = render(
+  render(
     <Provider store={store}>
       <App />
     </Provider>,
-    document.querySelector("#app"),
-    root
+    document.body,
+    document.body.lastElementChild
   );
 }
 
 init();
 
 if (module.hot) {
+  require("preact/devtools");
+
   module.hot.accept("./components/App", () =>
     window.requestAnimationFrame(() => {
       init();

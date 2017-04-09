@@ -1,9 +1,11 @@
 import { h } from "preact";
 import { Card, Icon } from "preact-mdl";
-import Bulb from "./Bulb";
 
-const Interact = ({ bulbs, onInteract, onSwitchOn, onChange }) => (
-  <Card shadow="3">
+import Bulb from "./Bulb";
+import "./Bulbs.scss";
+
+const Bulbs = ({ bulbs, getBulbs }) => (
+  <Card shadow="3" class="bulb-card">
     <Card.Title class>
       <Card.TitleText>Bulbs</Card.TitleText>
     </Card.Title>
@@ -12,10 +14,10 @@ const Interact = ({ bulbs, onInteract, onSwitchOn, onChange }) => (
     </Card.Text>
     <Card.Actions>
       {Object.entries(bulbs).map(([id, infos]) => (
-        <Bulb id={id} infos={infos} onChange={onChange} />
+        <Bulb key={id} id={id} infos={infos} update={getBulbs} />
       ))}
     </Card.Actions>
   </Card>
 );
 
-export default Interact;
+export default Bulbs;
