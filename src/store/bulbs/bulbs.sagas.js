@@ -1,13 +1,13 @@
 import {
   take,
   takeEvery,
+  throttle,
   put,
   call,
   fork,
   select,
   cancel
 } from "redux-saga/effects";
-import { delay } from "redux-saga";
 
 import {
   getLights,
@@ -46,7 +46,7 @@ function* switchOffBulb({ value }) {
   yield call(switchOffById, bridgeIp, username, value);
 }
 
-function* changeBri(value) {
+function* changeBri({ value }) {
   const bridgeIp = yield select(bridgeIpSelector);
   const username = yield select(usernameSelector);
 
@@ -57,7 +57,6 @@ function* changeBri(value) {
     value.bulbId,
     parseInt(value.bri, 10)
   );
-  yield call(delay, 500);
 }
 
 function* watchGetBulbs() {
@@ -70,14 +69,7 @@ function* watchSwitchOffBulb() {
   yield takeEvery(SWITCH_OFF, switchOffBulb);
 }
 function* watchChangeBri() {
-  let task;
-  while (true) {
-    const { value } = yield take(CHANGE_BRI);
-    if (task) {
-      yield cancel(task);
-    }
-    task = yield fork(changeBri, value);
-  }
+  yield throttle(500, CHANGE_BRI, changeBri);
 }
 
 export default function* root() {
