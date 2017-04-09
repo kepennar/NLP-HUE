@@ -7,10 +7,9 @@ import Bulb from "./Bulb";
 
 class BulbContainer extends Component {
   async toggle() {
-    const { id, infos, update, switchOn, switchOff } = this.props;
+    const { id, infos,switchOn, switchOff } = this.props;
     const action = infos.state.on ? switchOff : switchOn;
     await action(id);
-    update();
   }
 
   async changebri(bri) {

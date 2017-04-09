@@ -1,0 +1,10 @@
+@import '../../../styles/_colors';
+
+.scrollable-content {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.play-button {
+  color: $color-primary-dark;
+}

@@ -1,5 +1,3 @@
-const CONF = {};
-
 export async function fetchBridgeIp() {
   let bridgeIp;
   if (!navigator.onLine) {
@@ -39,15 +37,19 @@ async function fetchConnect(ip) {
 export async function getLights(ip, username) {
   const resp = await fetch(`http://${ip}/api/${username}/lights`);
   const lights = await resp.json();
-  CONF.lights = lights;
   return lights;
 }
 
-export async function getScenes() {
-  const resp = await fetch(`http://${CONF.ip}/api/${CONF.username}/scenes`);
+export async function getScenes(ip, username) {
+  const resp = await fetch(`http://${ip}/api/${username}/scenes`);
   return resp.json();
 }
-
+export async function activateScene(ip, username, id) {
+  return fetch(`http://${ip}/api/${username}/groups/${id}/action`, {
+    method: "PUT",
+    body: JSON.stringify({ on: true, scene: id, sat: 250, transitiontime: 100 })
+  });
+}
 export async function switchLight(ip, username, id, on = true) {
   return fetch(`http://${ip}/api/${username}/lights/${id}/state`, {
     method: "PUT",

@@ -16,7 +16,7 @@ class BulbsContainer extends Component {
 
   render({ getBulbs, bulbs }) {
     return bulbs.nbBulbs
-      ? <Bulbs bulbs={omit("nbBulbs", bulbs)} getBulbs={getBulbs} />
+      ? <Bulbs bulbs={omit("nbBulbs", bulbs)} />
       : <span>Loading...</span>;
   }
 }

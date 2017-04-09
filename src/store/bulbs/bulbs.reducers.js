@@ -6,7 +6,7 @@ export default (state = EMPTY, action) => {
     case SET_BULBS:
       const bulbs = action.value;
       const nbBulbs = Object.values(bulbs).length;
-      return { ...state, ...bulbs, nbBulbs };
+      return { ...bulbs, nbBulbs };
     default:
       return state;
   }

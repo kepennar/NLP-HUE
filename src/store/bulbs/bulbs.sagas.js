@@ -1,14 +1,14 @@
 import {
   take,
   takeEvery,
+  takeLatest,
   throttle,
   put,
   call,
   fork,
-  select,
-  cancel
+  select
 } from "redux-saga/effects";
-
+import { delay } from 'redux-saga'
 import {
   getLights,
   switchOnById,
@@ -16,6 +16,7 @@ import {
   putBriValue
 } from "../../services/HueService";
 import {
+  getBulbs,
   setBulbs,
   GET_BULBS,
   SWITCH_ON,
@@ -30,6 +31,9 @@ function* fetchBulbs() {
 
   const bulbs = yield call(getLights, bridgeIp, username);
   yield put(setBulbs(bulbs));
+
+  yield delay(1500)
+  yield put(getBulbs())
 }
 
 function* switchOnBulb({ value }) {
@@ -60,7 +64,7 @@ function* changeBri({ value }) {
 }
 
 function* watchGetBulbs() {
-  yield takeEvery(GET_BULBS, fetchBulbs);
+  yield takeLatest(GET_BULBS, fetchBulbs);
 }
 function* watchSwitchOnBulb() {
   yield takeEvery(SWITCH_ON, switchOnBulb);

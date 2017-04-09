@@ -2,11 +2,11 @@ import { h } from "preact";
 import { Card, Icon, Button } from "preact-mdl";
 
 const Speech = ({ onClick }) => (
-  <Card shadow="3">
+  <Card shadow="3" class="wide-card">
     <Card.Title class>
       <Card.TitleText>Voice</Card.TitleText>
     </Card.Title>
-    <Card.Text style="text-align:center">
+    <Card.Text class="txt-center">
       <Icon icon="settings_voice" style="display:block; font-size:100px;" />
     </Card.Text>
     <Card.Actions>

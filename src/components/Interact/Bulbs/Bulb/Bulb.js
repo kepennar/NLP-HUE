@@ -3,7 +3,7 @@ import { CheckBox, Slider } from "preact-mdl";
 
 import BriSlider from "./BriSlider";
 
-const Bulb = (
+export default (
   {
     id,
     infos: { name, state: { reachable, on, bri } },
@@ -38,5 +38,3 @@ const Bulb = (
     </form>
   );
 };
-
-export default Bulb;
