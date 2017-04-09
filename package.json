@@ -26,6 +26,7 @@
   "devDependencies": {
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "git-scripts": "^0.2.1",
+    "lint-staged": "^3.4.0",
     "nwb": "0.15.x",
     "nwb-sass": "^0.7.1",
     "offline-plugin": "^4.6.1",
@@ -33,12 +34,18 @@
   },
   "git": {
     "scripts": {
-      "pre-commit": "yarn test",
+      "pre-commit": "yarn lint-staged && yarn test",
       "post-commit": "yarn build",
       "pre-push": "yarn deploy"
     }
   },
-  "author": "",
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "author": "kepennar",
   "license": "MIT",
   "repository": ""
 }
