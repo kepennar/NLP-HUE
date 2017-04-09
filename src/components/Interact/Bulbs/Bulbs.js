@@ -10,7 +10,10 @@ export default ({ bulbs, getBulbs }) => (
       <Card.TitleText>Bulbs</Card.TitleText>
     </Card.Title>
     <Card.Text class="txt-center">
-      <Icon icon="lightbulb_outline" class="card-icon" />
+      <Icon
+        icon="lightbulb_outline"
+        class="card-icon mdl-color-text--blue-800"
+      />
     </Card.Text>
     <Card.Actions>
       {Object.entries(bulbs).map(([id, infos]) => (
