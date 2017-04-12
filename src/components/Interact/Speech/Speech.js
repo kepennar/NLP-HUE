@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { Card, Icon, Button } from "preact-mdl";
 
+import AIResponse from "./AIResponse";
 import "./Speech.scss";
 
 const Speech = ({ isListening, onClick }) => (
@@ -15,6 +16,7 @@ const Speech = ({ isListening, onClick }) => (
           `card-icon ${isListening ? "mdl-color-text--blue-800" : "mdl-color-text--grey"}`
         }
       />
+      <AIResponse />
     </Card.Text>
     <Card.Actions class="speech-button">
       <Button

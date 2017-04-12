@@ -29,3 +29,13 @@ export const changeBri = (bulbId, bri) => ({
     bri
   }
 });
+
+export const SWITCH_ALL_ON = "SWITCH_ALL_ON";
+export const switchAllOn = () => ({
+  type: SWITCH_ALL_ON
+});
+
+export const SWITCH_ALL_OFF = "SWITCH_ALL_OFF";
+export const switchAllOff = () => ({
+  type: SWITCH_ALL_OFF
+});

@@ -1,3 +1,40 @@
 .speech-button {
   text-align: right;
 }
+
+.ai-response {
+  width: 100%;
+
+  .text {
+    animation: type 2s steps(60, end);
+    font-family: 'Courier';
+    font-size: 15px;
+    margin: 10px 0 0 10px;
+    overflow: hidden;
+    text-align: left;
+    white-space: nowrap;
+    width: 100%;
+
+    &:nth-child(2) {
+      animation: type2 4s steps(60, end);
+    }
+
+    span {
+      animation: blink 1s infinite;
+    }
+  }
+
+  @keyframes type {
+    from { width: 0; }
+  }
+
+  @keyframes type2 {
+    0% {width: 0;}
+    50% {width: 0;}
+    100% { width: 100; }
+  }
+
+  @keyframes blink {
+    to { opacity: 0; }
+  }
+}

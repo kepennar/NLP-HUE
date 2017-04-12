@@ -20,14 +20,23 @@ streamClient = client.createStreamClient({
     this.isListening = true;
   },
   onResults(data) {
-    console.log("> RESULT", data);
+    if (this.resolveResp) {
+      this.resolveResp(data);
+      this.resolveResp = null;
+      this.errorResp = null;
+    }
   },
   onStopListening() {
     console.log("> ON STOP LISTENING");
     this.isListening = false;
   },
   onError(errorCode, message) {
-    console.error(errorCode, message);
+    if (this.errorResp) {
+      this.errorResp(errorCode);
+      console.error(errorCode, message);
+      this.resolveResp = null;
+      this.errorResp = null;
+    }
   }
 });
 
@@ -41,5 +50,9 @@ export const start = () => {
 export const stop = () => {
   if (streamClient.isListening) {
     streamClient.stopListening();
+    return new Promise((res, err) => {
+      streamClient.resolveResp = res;
+      streamClient.errorResp = err;
+    });
   }
 };

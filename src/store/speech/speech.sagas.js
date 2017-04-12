@@ -1,14 +1,22 @@
 import { takeEvery, put, call, fork, select } from "redux-saga/effects";
 
-import { START_LISTENING, STOP_LISTENING } from "./speech.actions";
+import { START_LISTENING, STOP_LISTENING, setResponse } from "./speech.actions";
+import { switchAllOn, switchAllOff } from "../bulbs/bulbs.actions";
 import { start, stop } from "../../services/SpeechService";
 
 function* startListening() {
-  const scenes = yield call(start);
+  yield call(start);
 }
 
 function* stopListening() {
-  const scenes = yield call(stop);
+  const resp = yield call(stop);
+  console.log(resp);
+  const { speech, action } = resp.result;
+
+  if (action === "lights.on") yield put(switchAllOn());
+  if (action === "lights.off") yield put(switchAllOff());
+
+  yield put(setResponse(speech));
 }
 
 function* watchStartListening() {
