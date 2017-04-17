@@ -3,12 +3,10 @@ import { Layout } from "preact-mdl";
 
 import "./Header.scss";
 
-const Header = ({ collapsed, height }) => {
+const Header = ({ collapsed }) => {
+  const className = `mdl-layout__header--transparent ${collapsed ? "collapse" : ""}`;
   return (
-    <Layout.Header
-      class="mdl-layout__header--transparent"
-      style={{ height, opacity: Math.max(height / 200, 0.4) }}
-    >
+    <Layout.Header class={className}>
       <Layout.HeaderRow>
         <Layout.Title>
           {collapsed ? "NLP HUE" : "Welcome to NLP HUE"}

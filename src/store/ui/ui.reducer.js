@@ -1,10 +1,10 @@
-import { SET_HEADER_HEIGHT } from "./ui.actions";
+import { SET_HEADER_COLLAPSED } from "./ui.actions";
 
-const DEFAULT = { headerHeight: 200 };
+const DEFAULT = { collapsed: false };
 export default (state = DEFAULT, action) => {
   switch (action.type) {
-    case SET_HEADER_HEIGHT:
-      return { ...state, headerHeight: action.value };
+    case SET_HEADER_COLLAPSED:
+      return { ...state, collapsed: action.value };
     default:
       return state;
   }

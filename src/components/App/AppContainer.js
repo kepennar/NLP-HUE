@@ -2,7 +2,7 @@ import { h, Component } from "preact";
 import { connect } from "preact-redux";
 
 import { getBridgeIp } from "../../store/user";
-import { setHeaderOffset } from "../../store/ui";
+import { setHeaderCollapsed } from "../../store/ui";
 
 import App from "./App";
 
@@ -12,8 +12,18 @@ class AppContainer extends Component {
   }
 
   handleScroll = e => {
-    const { setHeaderOffset } = this.props;
-    setHeaderOffset(e.offset);
+    const { collapsed, setHeaderCollapsed } = this.props;
+    const offset = e.offset;
+
+    if (this.requestFrame) return;
+    this.requestFrame = requestAnimationFrame(() => {
+      if (offset > 10 && !collapsed) {
+        setHeaderCollapsed(true);
+      } else if (offset < 10 && collapsed) {
+        setHeaderCollapsed(false);
+      }
+      this.requestFrame = null;
+    });
   };
 
   render({ bridgeIp, username }) {
@@ -26,7 +36,7 @@ class AppContainer extends Component {
     );
   }
 }
-export default connect(state => ({ ...state.user }), {
+export default connect(state => ({ ...state.user, ...state.ui }), {
   getBridgeIp,
-  setHeaderOffset
+  setHeaderCollapsed
 })(AppContainer);

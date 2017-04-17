@@ -28,6 +28,8 @@ describe("App component", () => {
       </Provider>,
       node
     );
-    expect(node.querySelector("h2").textContent).toBe("Welcome to NLP HUE");
+    expect(node.querySelector(".mdl-layout-title").textContent).toBe(
+      "Welcome to NLP HUE"
+    );
   });
 });
